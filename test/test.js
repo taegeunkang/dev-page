@@ -4,38 +4,43 @@ const { ethers } = require("hardhat");
 
 describe("Contents", function () {
     let owner;
+    let contents;
     before(async () => {
         owner = await ethers.getSigner();
+        const Contents = await ethers.getContractFactory("Contents");
+        contents = await Contents.deploy();
+        await contents.deployed();
     })
     it("Setting User Infomation Test.", async function () {
-        const Contents = await ethers.getContractFactory("Contents");
-        const contents = await Contents.deploy();
-        await contents.deployed();
 
         await contents.setUserInfo("mars", "https://pinanta.com/42u382");
-        const response = await contents.writerInfo(owner.address);
+        const response = await contents.userInfo(owner.address);
         expect(response == [owner.address, "mars", "https://pinanta.com/42u382"], "User Info is not the same");
 
     });
     it("Create Contents Test.", async function () {
-        const Contents = await ethers.getContractFactory("Contents");
-        const contents = await Contents.deploy();
-        await contents.deployed();
 
-        await contents.create("하드햇 테스트", "오늘은 하드햇 컨텐츠를 테스트해보겠습니다."
-            , ["솔리디티", "블록체인"]);
+        for (let i = 1; i <= 10; i++) {
+            await contents.create("하드햇테스트" + String(i), "테스트" + String(i), String(new Date()), ["블록체인", "솔리디티"]);
+        }
+        const res = await contents.getContentsOfOwner();
 
-        await contents.create("하드햇 테스트1", "컴투스 홀딩스 가즈아아아아아"
-            , ["블록체인"]);
+        let b = true;
+        for (let j = 0; j < 10; j++) {
+            let adr = await contents.contentsBelongsTo(res[j]);
+            if (adr != owner.address) {
+                b = false;
+                break;
+            }
+        }
 
-        await contents.create("하드햇 테스트2", "컴투스 홀딩스 제발 합격!!"
-            , ["블록체인"]);
+        expect(b, "created info doesn't match.");
+    })
 
-        // console.log(await contents.contents(0));
-        // console.log(await contents.contents(1));
-        // console.log(await contents.getTagsOfWriter(owner.address));
-        expect(await contents.contentsOwnerLoc(0) == owner.address, "주소 불일치");
+    it("hashTag test.", async function () {
 
-
+        const tags = await contents.getTagsOfWriter(owner.address);
+        let expectedResponse = [["블록체인", 10], ["솔리디티", 10]];
+        expect(tags == expectedResponse, "response doesn't match.");
     })
 });
