@@ -1,4 +1,6 @@
+const { EtherscanProvider } = require("@ethersproject/providers");
 const { expect } = require("chai");
+const { BigNumber } = require("ethers");
 const { ethers } = require("hardhat");
 
 describe("Contents", function () {
@@ -10,14 +12,20 @@ describe("Contents", function () {
     contents = await Contents.deploy();
     await contents.deployed();
   });
-  it("Setting User Infomation Test.", async function () {
+  it("User Infomation Exists Test.", async function () {
     await contents.setUserInfo("mars", "https://pinanta.com/42u382");
     const response = await contents.userInfo(owner.address);
-    expect(
-      response == [owner.address, "mars", "https://pinanta.com/42u382"],
-      "User Info is not the same"
-    );
+    const expected = [owner.address, "mars", "https://pinanta.com/42u382"];
+    expect(JSON.stringify(response)).to.equal(JSON.stringify(expected));
   });
+
+  it("User Information Doesn't exist Test.", async function () {
+    const users = await ethers.getSigners();
+    const user01 = users[1];
+    const userInfo = await contents.userInfo(user01.address);
+    expect(userInfo[0]).to.equal("0x0000000000000000000000000000000000000000");
+    
+  })
   it("Create Contents Test.", async function () {
     for (let i = 1; i <= 100; i++) {
       await contents.create(
@@ -38,16 +46,17 @@ describe("Contents", function () {
       }
     }
 
-    expect(b, "created info doesn't match.");
+    expect(b).to.equal(true);
   });
 
   it("hashTag test.", async function () {
     const tags = await contents.getTagsOfWriter(owner.address);
     let expectedResponse = [
-      ["블록체인", 10],
-      ["솔리디티", 10],
+      ["블록체인", BigNumber.from(100)],
+      ["솔리디티", BigNumber.from(100)],
     ];
-    expect(tags == expectedResponse, "response doesn't match.");
+   
+    expect(JSON.stringify(tags)).to.equal(JSON.stringify(expectedResponse));
   });
 
   it("mypage pagination test.", async function () {
@@ -62,7 +71,8 @@ describe("Contents", function () {
         ["블록체인", "솔리디티"],
       ]);
     }
-    expect(response == r, "pagination not worked");
+
+    expect(response.length).to.equal(r.length);
   });
   it("mainpage pagination test.", async function () {
     const response = await contents.getContentPageable(0, 20);
@@ -76,6 +86,46 @@ describe("Contents", function () {
         ["블록체인", "솔리디티"],
       ]);
     }
-    expect(response == r, "mainpage pagination not worked.");
+    expect(response.length).to.equal(r.length);
   });
+
+  it("mainpage safePagination test.", async function () {
+    const response = await contents.getContentPageable(85, 20);
+    // console.log(response);
+    let r =[];
+    for(let i =86; i <= 100; i++) {
+      r.push([
+        "하드햇테스트" + String(i),
+        "테스트" + String(i),
+        String(new Date()),
+        ["블록체인", "솔리디티"],
+      ]);
+    }
+
+    const contents_size = response.length;
+    const dummy_size = r.length;
+
+    expect(contents_size).to.equal(dummy_size);
+
+  });
+  it("mypage safePagination test.", async function () {
+
+    const response = await contents.getMycontentPageable(85, 20);
+    // console.log(response);
+    let r =[];
+    for(let i =86; i <= 100; i++) {
+      r.push([
+        "하드햇테스트" + String(i),
+        "테스트" + String(i),
+        String(new Date()),
+        ["블록체인", "솔리디티"],
+      ]);
+    }
+
+    const contents_size = response.length;
+    const dummy_size = r.length;
+
+    expect(contents_size).to.equal(dummy_size);
+
+  })
 });

@@ -13,7 +13,7 @@ contract Contents {
     mapping(address => uint256[]) private contentsOfOwner; // 마이페이지 첫화면 전체 스크롤용
     mapping(uint256 => address) public contentsBelongsTo; // 글의 소유자 확인용
 
-    mapping(address => mapping(string => uint256[])) private contentsOfUser; //사이드바 숫자 및 조회
+    mapping(address => mapping(string => uint256[])) private contentsOfUser; //카테고리에 해당 되는 게시글들 
     mapping(address => string[]) private tagsOfUser; // 사용자의 해시태그 종류
 
     mapping(address => User) public userInfo; // 사용자 프로필 정보
@@ -119,10 +119,10 @@ contract Contents {
         view
         returns (Content[] memory)
     {
-        Content[] memory content = new Content[](_amount);
+        uint256 size = _safePagenation(_current, _amount, Page.Mypage);
+        Content[] memory content = new Content[](size - _current);
         uint256[] memory myContents = contentsOfOwner[msg.sender];
         uint256 count = 0;
-
         for (
             uint256 i = _current;
             i < _safePagenation(_current, _amount, Page.Mypage);
@@ -143,18 +143,17 @@ contract Contents {
         view
         returns (Content[] memory)
     {
-        Content[] memory content = new Content[](_amount);
+        uint256 size = _safePagenation(_current, _amount, Page.Main);
+        Content[] memory content = new Content[](size - _current);
         uint256 count = 0;
-
         for (
             uint256 i = _current;
-            i < _safePagenation(_current, _amount, Page.Main);
+            i < size;
             i++
         ) {
             content[count] = contents[i];
             count = count.add(1);
         }
-
         return content;
     }
 
