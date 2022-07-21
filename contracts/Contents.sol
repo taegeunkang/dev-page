@@ -17,6 +17,7 @@ contract Contents {
     mapping(address => string[]) private tagsOfUser; // 사용자의 해시태그 종류
 
     mapping(address => User) public userInfo; // 사용자 프로필 정보
+    string[] private nickNames;
     mapping(string => bool) private tagExists;
 
     enum Page {
@@ -56,6 +57,19 @@ contract Contents {
         public
     {
         userInfo[msg.sender] = User(msg.sender, _nickName, _profileImgURL);
+        nickNames.push(_nickName);
+    }
+
+    //nickname check
+    function checkNicknameDuplicates(string memory _nickName) public view returns (bool) {
+        uint256 len = nickNames.length;
+        for(uint256 i =0; i < len; i++) {
+            if(keccak256(abi.encodePacked(nickNames[i])) == keccak256(abi.encodePacked(_nickName))) {
+                return true;
+            }
+        }
+        return false;
+        
     }
 
     modifier isContentOwner(uint256 _idx) {

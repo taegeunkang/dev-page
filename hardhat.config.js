@@ -29,12 +29,19 @@ module.exports = {
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
+      bsctest: {
+        url: process.env.BSC_TEST || "",
+        chainId: 97,
+        gasPrice: 20000000000,
+        accounts:{mnemonic: process.env.MNEMONIC}
+      
+    }
   },
   gasReporter: {
     enabled: process.env.REPORT_GAS !== undefined,
     currency: "USD",
   },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY,
+    apiKey: process.env.BSCTEST_SCAN_API_KEY,
   },
 };
