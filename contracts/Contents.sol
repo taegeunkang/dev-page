@@ -30,7 +30,7 @@ contract Contents {
         string title;
         string thumbnail;
         string content;
-        address writer;
+        User writer;
         string date;
     }
 
@@ -105,8 +105,10 @@ contract Contents {
         string memory _date,
         string[] memory _tags
     ) external {
+        User memory writer = userInfo[msg.sender];
+
         contents.push(
-            Content(contentsNumber, _title, _thumbnail ,_content, msg.sender, _date)
+            Content(contentsNumber, _title, _thumbnail ,_content, writer, _date)
         );
         contentsOfOwner[msg.sender].push(contentsNumber);
 

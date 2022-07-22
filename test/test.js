@@ -62,18 +62,20 @@ describe("Contents", function () {
 
   it("mypage pagination test.", async function () {
     const response = await contents.getContentPageable(0, 20);
-
+    const writer = await contents.userInfo(owner.address);
+    console.log(writer);
     let r = [];
     for (let i = 1; i <= 20; i++) {
       r.push([
         "하드햇테스트" + String(i),
         "https://localhost:3000/img",
         "테스트" + String(i),
+        writer,
         String(new Date()),
         ["블록체인", "솔리디티"],
       ]);
     }
-
+    console.log(response[0]);
     expect(response.length).to.equal(r.length);
   });
   it("mainpage pagination test.", async function () {
