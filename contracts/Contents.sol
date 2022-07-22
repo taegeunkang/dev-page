@@ -28,6 +28,7 @@ contract Contents {
     struct Content {
         uint256 idx;
         string title;
+        string thumbnail;
         string content;
         address writer;
         string date;
@@ -99,12 +100,13 @@ contract Contents {
     // 게시글 생성
     function create(
         string memory _title,
+        string memory _thumbnail,
         string memory _content,
         string memory _date,
         string[] memory _tags
     ) external {
         contents.push(
-            Content(contentsNumber, _title, _content, msg.sender, _date)
+            Content(contentsNumber, _title, _thumbnail ,_content, msg.sender, _date)
         );
         contentsOfOwner[msg.sender].push(contentsNumber);
 

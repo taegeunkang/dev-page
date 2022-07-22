@@ -30,6 +30,7 @@ describe("Contents", function () {
     for (let i = 1; i <= 100; i++) {
       await contents.create(
         "하드햇테스트" + String(i),
+        "https://localhost:3000/img",
         "테스트" + String(i),
         String(new Date()),
         ["블록체인", "솔리디티"]
@@ -66,6 +67,7 @@ describe("Contents", function () {
     for (let i = 1; i <= 20; i++) {
       r.push([
         "하드햇테스트" + String(i),
+        "https://localhost:3000/img",
         "테스트" + String(i),
         String(new Date()),
         ["블록체인", "솔리디티"],
@@ -81,6 +83,7 @@ describe("Contents", function () {
     for (let i = 1; i <= 20; i++) {
       r.push([
         "하드햇테스트" + String(i),
+        "https://localhost:3000/img",
         "테스트" + String(i),
         String(new Date()),
         ["블록체인", "솔리디티"],
@@ -96,6 +99,7 @@ describe("Contents", function () {
     for(let i =86; i <= 100; i++) {
       r.push([
         "하드햇테스트" + String(i),
+        "https://localhost:3000/img",
         "테스트" + String(i),
         String(new Date()),
         ["블록체인", "솔리디티"],
@@ -116,6 +120,7 @@ describe("Contents", function () {
     for(let i =86; i <= 100; i++) {
       r.push([
         "하드햇테스트" + String(i),
+        "https://localhost:3000/img",
         "테스트" + String(i),
         String(new Date()),
         ["블록체인", "솔리디티"],
