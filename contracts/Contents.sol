@@ -31,6 +31,7 @@ contract Contents {
         string thumbnail;
         string content;
         User writer;
+        string [] tags;
         string date;
     }
 
@@ -108,7 +109,7 @@ contract Contents {
         User memory writer = userInfo[msg.sender];
 
         contents.push(
-            Content(contentsNumber, _title, _thumbnail ,_content, writer, _date)
+            Content(contentsNumber, _title, _thumbnail ,_content, writer, _tags,_date)
         );
         contentsOfOwner[msg.sender].push(contentsNumber);
 
