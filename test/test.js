@@ -24,8 +24,7 @@ describe("Contents", function () {
     const user01 = users[1];
     const userInfo = await contents.userInfo(user01.address);
     expect(userInfo[0]).to.equal("0x0000000000000000000000000000000000000000");
-    
-  })
+  });
   it("Create Contents Test.", async function () {
     for (let i = 1; i <= 100; i++) {
       await contents.create(
@@ -36,7 +35,7 @@ describe("Contents", function () {
         ["블록체인", "솔리디티"]
       );
     }
-    const res = await contents.getContentsOfOwner();
+    const res = await contents.getContentsOfOwner(owner.address);
 
     let b = true;
     for (let j = 0; j < 10; j++) {
@@ -56,16 +55,21 @@ describe("Contents", function () {
       ["블록체인", BigNumber.from(100)],
       ["솔리디티", BigNumber.from(100)],
     ];
-   
+
     expect(JSON.stringify(tags)).to.equal(JSON.stringify(expectedResponse));
   });
 
   it("mypage pagination test.", async function () {
-    const response = await contents.getContentPageable(0, 20);
+    const total_count = await contents.getContentsOfOwner(owner.address).length;
+    const response = await contents.getMycontentPageable(
+      total_count,
+      20,
+      owner.address
+    );
+    console.log(response);
     const writer = await contents.userInfo(owner.address);
-    console.log(writer);
     let r = [];
-    for (let i = 1; i <= 20; i++) {
+    for (let i = total_count; i >= total_count - 20; i--) {
       r.push([
         "하드햇테스트" + String(i),
         "https://localhost:3000/img",
@@ -75,14 +79,15 @@ describe("Contents", function () {
         ["블록체인", "솔리디티"],
       ]);
     }
-    console.log(response[0]);
     expect(response.length).to.equal(r.length);
   });
   it("mainpage pagination test.", async function () {
-    const response = await contents.getContentPageable(0, 20);
+    const total_count = await contents.contentsNumber();
+
+    const response = await contents.getContentPageable(total_count, 20);
 
     let r = [];
-    for (let i = 1; i <= 20; i++) {
+    for (let i = total_count; i >= total_count - 20; i--) {
       r.push([
         "하드햇테스트" + String(i),
         "https://localhost:3000/img",
@@ -95,10 +100,13 @@ describe("Contents", function () {
   });
 
   it("mainpage safePagination test.", async function () {
-    const response = await contents.getContentPageable(85, 20);
-    // console.log(response);
-    let r =[];
-    for(let i =86; i <= 100; i++) {
+    const total_count = await contents.contentsNumber();
+    const response = await contents.getContentPageable(
+      total_count,
+      total_count + 10
+    );
+    let r = [];
+    for (let i = total_count; i >= 0; i--) {
       r.push([
         "하드햇테스트" + String(i),
         "https://localhost:3000/img",
@@ -112,14 +120,16 @@ describe("Contents", function () {
     const dummy_size = r.length;
 
     expect(contents_size).to.equal(dummy_size);
-
   });
   it("mypage safePagination test.", async function () {
-
-    const response = await contents.getMycontentPageable(85, 20);
-    // console.log(response);
-    let r =[];
-    for(let i =86; i <= 100; i++) {
+    const total_count = await contents.getContentsOfOwner(owner.address).length;
+    const response = await contents.getMycontentPageable(
+      total_count,
+      total_count + 10,
+      owner.address
+    );
+    let r = [];
+    for (let i = total_count; i >= 0; i--) {
       r.push([
         "하드햇테스트" + String(i),
         "https://localhost:3000/img",
@@ -133,6 +143,5 @@ describe("Contents", function () {
     const dummy_size = r.length;
 
     expect(contents_size).to.equal(dummy_size);
-
-  })
+  });
 });

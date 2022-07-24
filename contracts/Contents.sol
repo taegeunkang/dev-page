@@ -8,12 +8,12 @@ contract Contents {
     using SafeMath for uint256;
 
     Content[] public contents; // 메인페이지 전체 조회용
-    uint256 private contentsNumber; // 전체 콘텐츠 수
+    uint256 public contentsNumber; // 전체 콘텐츠 수
 
     mapping(address => uint256[]) private contentsOfOwner; // 마이페이지 첫화면 전체 스크롤용
     mapping(uint256 => address) public contentsBelongsTo; // 글의 소유자 확인용
 
-    mapping(address => mapping(string => uint256[])) private contentsOfUser; //카테고리에 해당 되는 게시글들 
+    mapping(address => mapping(string => uint256[])) private contentsOfUser; //카테고리에 해당 되는 게시글들
     mapping(address => string[]) private tagsOfUser; // 사용자의 해시태그 종류
 
     mapping(address => User) public userInfo; // 사용자 프로필 정보
@@ -31,7 +31,7 @@ contract Contents {
         string thumbnail;
         string content;
         User writer;
-        string [] tags;
+        string[] tags;
         string date;
     }
 
@@ -50,8 +50,12 @@ contract Contents {
     //     contentsNumber = 0;
     // }
 
-    function getContentsOfOwner() public view returns (uint256[] memory) {
-        return contentsOfOwner[msg.sender];
+    function getContentsOfOwner(address _user)
+        public
+        view
+        returns (uint256[] memory)
+    {
+        return contentsOfOwner[_user];
     }
 
     // 사용자 프로필 정보 세팅
@@ -63,15 +67,21 @@ contract Contents {
     }
 
     //nickname check
-    function checkNicknameDuplicates(string memory _nickName) public view returns (bool) {
+    function checkNicknameDuplicates(string memory _nickName)
+        public
+        view
+        returns (bool)
+    {
         uint256 len = nickNames.length;
-        for(uint256 i =0; i < len; i++) {
-            if(keccak256(abi.encodePacked(nickNames[i])) == keccak256(abi.encodePacked(_nickName))) {
+        for (uint256 i = 0; i < len; i++) {
+            if (
+                keccak256(abi.encodePacked(nickNames[i])) ==
+                keccak256(abi.encodePacked(_nickName))
+            ) {
                 return true;
             }
         }
         return false;
-        
     }
 
     modifier isContentOwner(uint256 _idx) {
@@ -109,7 +119,15 @@ contract Contents {
         User memory writer = userInfo[msg.sender];
 
         contents.push(
-            Content(contentsNumber, _title, _thumbnail ,_content, writer, _tags,_date)
+            Content(
+                contentsNumber,
+                _title,
+                _thumbnail,
+                _content,
+                writer,
+                _tags,
+                _date
+            )
         );
         contentsOfOwner[msg.sender].push(contentsNumber);
 
@@ -133,20 +151,16 @@ contract Contents {
         contents[_idx].content = _content;
     }
 
-    function getMycontentPageable(uint256 _current, uint256 _amount)
-        public
-        view
-        returns (Content[] memory)
-    {
-        uint256 size = _safePagenation(_current, _amount, Page.Mypage);
-        Content[] memory content = new Content[](size - _current);
-        uint256[] memory myContents = contentsOfOwner[msg.sender];
+    function getMycontentPageable(
+        uint256 _current,
+        uint256 _amount,
+        address _user
+    ) public view returns (Content[] memory) {
+        uint256 end = _safePagenation(_current, _amount);
+        Content[] memory content = new Content[](_current - end);
+        uint256[] memory myContents = contentsOfOwner[_user];
         uint256 count = 0;
-        for (
-            uint256 i = _current;
-            i < _safePagenation(_current, _amount, Page.Mypage);
-            i++
-        ) {
+        for (uint256 i = _current; i > end; i--) {
             uint256 contentNumber = myContents[i];
             Content memory item = contents[contentNumber];
             content[count] = item;
@@ -162,14 +176,10 @@ contract Contents {
         view
         returns (Content[] memory)
     {
-        uint256 size = _safePagenation(_current, _amount, Page.Main);
-        Content[] memory content = new Content[](size - _current);
+        uint256 end = _safePagenation(_current, _amount);
+        Content[] memory content = new Content[](_current - end);
         uint256 count = 0;
-        for (
-            uint256 i = _current;
-            i < size;
-            i++
-        ) {
+        for (uint256 i = _current; i > end; i--) {
             content[count] = contents[i];
             count = count.add(1);
         }
@@ -177,19 +187,15 @@ contract Contents {
     }
 
     // 마지막 페이지 핸들링
-    function _safePagenation(
-        uint256 _cursor,
-        uint256 _val,
-        Page loc
-    ) private view returns (uint256) {
-        uint256 size = (loc == Page.Main)
-            ? contentsNumber
-            : contentsOfOwner[msg.sender].length;
-
-        if (_cursor + _val >= size) {
-            return size;
+    function _safePagenation(uint256 _cursor, uint256 _val)
+        private
+        pure
+        returns (uint256)
+    {
+        if (_cursor - _val < 0) {
+            return 0;
         }
 
-        return _cursor + _val;
+        return _cursor - _val;
     }
 }
