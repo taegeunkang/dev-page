@@ -157,14 +157,18 @@ contract Contents {
         address _user
     ) public view returns (Content[] memory) {
         uint256 end = _safePagenation(_current, _amount);
+        
         Content[] memory content = new Content[](_current - end);
         uint256[] memory myContents = contentsOfOwner[_user];
         uint256 count = 0;
-        for (uint256 i = _current; i > end; i--) {
+        for (uint256 i = _current - 1; i >= end; i--) {
             uint256 contentNumber = myContents[i];
             Content memory item = contents[contentNumber];
             content[count] = item;
             count = count.add(1);
+            if(i == 0) {
+                break;
+            }
         }
 
         return content;
@@ -177,12 +181,19 @@ contract Contents {
         returns (Content[] memory)
     {
         uint256 end = _safePagenation(_current, _amount);
+        // console.log(_current, _amount, end);
+
         Content[] memory content = new Content[](_current - end);
         uint256 count = 0;
-        for (uint256 i = _current; i > end; i--) {
+   
+        for (uint256 i = _current - 1; i >= end; i--) {
             content[count] = contents[i];
             count = count.add(1);
+            if(i == 0){
+                break;
+            }
         }
+
         return content;
     }
 
@@ -192,7 +203,7 @@ contract Contents {
         pure
         returns (uint256)
     {
-        if (_cursor - _val < 0) {
+        if (_cursor < _val) {
             return 0;
         }
 
