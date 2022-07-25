@@ -59,48 +59,48 @@ describe("Contents", function () {
     expect(JSON.stringify(tags)).to.equal(JSON.stringify(expectedResponse));
   });
 
-  // it("mypage pagination test.", async function () {
-  //   let total_count = await contents.getContentsOfOwner(owner.address);
+  it("mypage pagination test.", async function () {
+    let total_count = await contents.getContentsOfOwner(owner.address);
 
-  //   total_count = total_count.length;
+    total_count = total_count.length;
  
-  //   const response = await contents.getMycontentPageable(
-  //     total_count,
-  //     20,
-  //     owner.address
-  //   );
+    const response = await contents.getMycontentPageable(
+      total_count,
+      20,
+      owner.address
+    );
 
-  //   const writer = await contents.userInfo(owner.address);
-  //   let r = [];
-  //   for (let i = total_count - 1; i >= total_count - 20; i--) {
-  //     r.push([
-  //       "하드햇테스트" + String(i),
-  //       "https://localhost:3000/img",
-  //       "테스트" + String(i),
-  //       writer,
-  //       String(new Date()),
-  //       ["블록체인", "솔리디티"],
-  //     ]);
-  //   }
-  //   expect(response.length).to.equal(r.length);
-  // });
-  // it("mainpage pagination test.", async function () {
-  //   const total_count = await contents.contentsNumber();
+    const writer = await contents.userInfo(owner.address);
+    let r = [];
+    for (let i = total_count - 1; i >= total_count - 20; i--) {
+      r.push([
+        "하드햇테스트" + String(i),
+        "https://localhost:3000/img",
+        "테스트" + String(i),
+        writer,
+        String(new Date()),
+        ["블록체인", "솔리디티"],
+      ]);
+    }
+    expect(response.length).to.equal(r.length);
+  });
+  it("mainpage pagination test.", async function () {
+    const total_count = await contents.contentsNumber();
 
-  //   const response = await contents.getContentPageable(total_count, 20);
+    const response = await contents.getContentPageable(total_count, 20);
 
-  //   let r = [];
-  //   for (let i = total_count - 1; i >= total_count - 20; i--) {
-  //     r.push([
-  //       "하드햇테스트" + String(i),
-  //       "https://localhost:3000/img",
-  //       "테스트" + String(i),
-  //       String(new Date()),
-  //       ["블록체인", "솔리디티"],
-  //     ]);
-  //   }
-  //   expect(response.length).to.equal(r.length);
-  // });
+    let r = [];
+    for (let i = total_count - 1; i >= total_count - 20; i--) {
+      r.push([
+        "하드햇테스트" + String(i),
+        "https://localhost:3000/img",
+        "테스트" + String(i),
+        String(new Date()),
+        ["블록체인", "솔리디티"],
+      ]);
+    }
+    expect(response.length).to.equal(r.length);
+  });
 
   it("mainpage safePagination test.", async function () {
     let total_count = await contents.contentsNumber();
