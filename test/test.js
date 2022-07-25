@@ -102,6 +102,19 @@ describe("Contents", function () {
     expect(response.length).to.equal(r.length);
   });
 
+  it("tag contentsPaginantion test.", async function () {
+    const tags = await contents.getTagsOfWriter(owner.address);
+    let response_count = [];
+    for(let i =0; i < tags.length; i++ ){
+     
+      const response = await contents.getTagContentsPagination(owner.address, tags[i].tagName, tags[i].count, 20);
+      response_count.push(response.length);
+    }
+    expect(JSON.stringify(response_count)).to.equal(JSON.stringify([20, 20]));
+    
+
+  });
+
   it("mainpage safePagination test.", async function () {
     let total_count = await contents.contentsNumber();
     const amount = 120
@@ -153,5 +166,18 @@ describe("Contents", function () {
     const dummy_size = r.length;
 
     expect(contents_size).to.equal(dummy_size);
+  });
+
+  it("tagContents safePaginantion test.", async function () {
+    const tags = await contents.getTagsOfWriter(owner.address);
+    let response_count = [];
+    for(let i =0; i < tags.length; i++ ){
+     
+      const response = await contents.getTagContentsPagination(owner.address, tags[i].tagName, tags[i].count, tags[i].count+ 20);
+      response_count.push(response.length);
+    }
+    expect(JSON.stringify(response_count)).to.equal(JSON.stringify([100, 100]));
+    
+
   });
 });

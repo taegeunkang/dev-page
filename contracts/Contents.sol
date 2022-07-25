@@ -13,7 +13,7 @@ contract Contents {
     mapping(address => uint256[]) private contentsOfOwner; // 마이페이지 첫화면 전체 스크롤용
     mapping(uint256 => address) public contentsBelongsTo; // 글의 소유자 확인용
 
-    mapping(address => mapping(string => uint256[])) private contentsOfUser; //카테고리에 해당 되는 게시글들
+    mapping(address => mapping(string => uint256[])) public contentsOfUser; //카테고리에 해당 되는 게시글들
     mapping(address => string[]) private tagsOfUser; // 사용자의 해시태그 종류
 
     mapping(address => User) public userInfo; // 사용자 프로필 정보
@@ -106,6 +106,24 @@ contract Contents {
             t[i] = Tag(tags[i], count);
         }
         return t;
+    }
+
+    function getTagContentsPagination (address _user, string memory _tag, uint256 _current, uint256 _amount) public view returns (Content[] memory) {
+        uint256 end = _safePagenation(_current, _amount);
+        Content[] memory content = new Content[](_current - end);
+        uint256[] memory tagContentsNumber = contentsOfUser[_user][_tag];
+        uint256 count = 0;
+        for(uint256 i = _current - 1; i >= end; i--) {
+            uint256 tagContent = tagContentsNumber[i];
+            Content memory c = contents[tagContent];
+            content[count] = c;
+            count = count.add(1);
+            if (i == 0){
+                break;
+            }
+        }
+        
+        return content;
     }
 
     // 게시글 생성
