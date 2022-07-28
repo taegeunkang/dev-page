@@ -9,7 +9,7 @@
 ### Stacks
 
 + Hardhat (Solidity)
-+ FastApi (image)
++ FastApi
 + AWS
 + IPFS
 + React
