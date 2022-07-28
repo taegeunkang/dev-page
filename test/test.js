@@ -13,19 +13,19 @@ describe("Contents", function () {
     await contents.deployed();
   });
   it("User Infomation Exists Test.", async function () {
-    await contents.setUserInfo("mars", "https://pinanta.com/42u382");
-    const response = await contents.userInfo(owner.address);
+    await contents.setUserInformation("mars", "https://pinanta.com/42u382");
+    const response = await contents.userInformation(owner.address);
     const expected = [owner.address, "mars", "https://pinanta.com/42u382"];
     expect(JSON.stringify(response)).to.equal(JSON.stringify(expected));
   });
 
-  it("User Information Doesn't exist Test.", async function () {
+  it("User Information Doesn't Exist Test.", async function () {
     const users = await ethers.getSigners();
     const user01 = users[1];
-    const userInfo = await contents.userInfo(user01.address);
-    expect(userInfo[0]).to.equal("0x0000000000000000000000000000000000000000");
+    const userInformation = await contents.userInformation(user01.address);
+    expect(userInformation[0]).to.equal("0x0000000000000000000000000000000000000000");
   });
-  it("Create Contents Test.", async function () {
+  it("Create Content Test.", async function () {
     for (let i = 1; i <= 100; i++) {
       await contents.create(
         "하드햇테스트" + String(i),
@@ -35,11 +35,10 @@ describe("Contents", function () {
         ["블록체인", "솔리디티"]
       );
     }
-    const res = await contents.getContentsOfOwner(owner.address);
-
+    const res = await contents.getContentOwner(owner.address);
     let b = true;
     for (let j = 0; j < 10; j++) {
-      let adr = await contents.contentsBelongsTo(res[j]);
+      let adr = await contents.contentWriter(res[j]);
       if (adr != owner.address) {
         b = false;
         break;
@@ -49,8 +48,8 @@ describe("Contents", function () {
     expect(b).to.equal(true);
   });
 
-  it("hashTag test.", async function () {
-    const tags = await contents.getTagsOfWriter(owner.address);
+  it("Tag Test.", async function () {
+    const tags = await contents.getUserSTag(owner.address);
     let expectedResponse = [
       ["블록체인", BigNumber.from(100)],
       ["솔리디티", BigNumber.from(100)],
@@ -59,18 +58,18 @@ describe("Contents", function () {
     expect(JSON.stringify(tags)).to.equal(JSON.stringify(expectedResponse));
   });
 
-  it("mypage pagination test.", async function () {
-    let total_count = await contents.getContentsOfOwner(owner.address);
+  it("UserContent Pagination Test.", async function () {
+    let total_count = await contents.getContentOwner(owner.address);
 
     total_count = total_count.length;
  
-    const response = await contents.getMycontentPageable(
+    const response = await contents.getUserContentPagination(
       total_count,
       20,
       owner.address
     );
 
-    const writer = await contents.userInfo(owner.address);
+    const writer = await contents.userInformation(owner.address);
     let r = [];
     for (let i = total_count - 1; i >= total_count - 20; i--) {
       r.push([
@@ -84,10 +83,10 @@ describe("Contents", function () {
     }
     expect(response.length).to.equal(r.length);
   });
-  it("mainpage pagination test.", async function () {
-    const total_count = await contents.contentsNumber();
+  it("Mainpage Pagination Test.", async function () {
+    const total_count = await contents.totalContentNumber();
 
-    const response = await contents.getContentPageable(total_count, 20);
+    const response = await contents.getContentPagination(total_count, 20);
 
     let r = [];
     for (let i = total_count - 1; i >= total_count - 20; i--) {
@@ -102,12 +101,12 @@ describe("Contents", function () {
     expect(response.length).to.equal(r.length);
   });
 
-  it("tag contentsPaginantion test.", async function () {
-    const tags = await contents.getTagsOfWriter(owner.address);
+  it("TagContent Paginantion Test.", async function () {
+    const tags = await contents.getUserSTag(owner.address);
     let response_count = [];
     for(let i =0; i < tags.length; i++ ){
      
-      const response = await contents.getTagContentsPagination(owner.address, tags[i].tagName, tags[i].count, 20);
+      const response = await contents.getTagContentPagination(owner.address, tags[i].tagName, tags[i].count, 20);
       response_count.push(response.length);
     }
     expect(JSON.stringify(response_count)).to.equal(JSON.stringify([20, 20]));
@@ -115,12 +114,12 @@ describe("Contents", function () {
 
   });
 
-  it("mainpage safePagination test.", async function () {
-    let total_count = await contents.contentsNumber();
+  it("Mainpage SafePagination Test.", async function () {
+    let total_count = await contents.totalContentNumber();
     const amount = 120
     total_count = parseInt(total_count);
     
-    const response = await contents.getContentPageable(
+    const response = await contents.getContentPagination(
       total_count,
       amount
     );
@@ -142,11 +141,11 @@ describe("Contents", function () {
 
     expect(contents_size).to.equal(dummy_size);
   });
-  it("mypage safePagination test.", async function () {
-    let total_count = await contents.getContentsOfOwner(owner.address);
+  it("UserContent SafePagination Test.", async function () {
+    let total_count = await contents.getContentOwner(owner.address);
     total_count = total_count.length;
 
-    const response = await contents.getMycontentPageable(
+    const response = await contents.getUserContentPagination(
       total_count,
       total_count + 10,
       owner.address
@@ -168,12 +167,12 @@ describe("Contents", function () {
     expect(contents_size).to.equal(dummy_size);
   });
 
-  it("tagContents safePaginantion test.", async function () {
-    const tags = await contents.getTagsOfWriter(owner.address);
+  it("TagContent SafePaginantion Test.", async function () {
+    const tags = await contents.getUserSTag(owner.address);
     let response_count = [];
     for(let i =0; i < tags.length; i++ ){
      
-      const response = await contents.getTagContentsPagination(owner.address, tags[i].tagName, tags[i].count, tags[i].count+ 20);
+      const response = await contents.getTagContentPagination(owner.address, tags[i].tagName, tags[i].count, tags[i].count+ 20);
       response_count.push(response.length);
     }
     expect(JSON.stringify(response_count)).to.equal(JSON.stringify([100, 100]));

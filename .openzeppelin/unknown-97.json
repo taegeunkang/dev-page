@@ -1,0 +1,508 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0x171A4edd50d4045acEa26E17CcD9Cb7aa3816Eae",
+    "txHash": "0x3e715ac0352803ebb315065ec38bc8166c15349f84543e56ee93f6ea83092adf"
+  },
+  "proxies": [
+    {
+      "address": "0xf52dE4374458ca70731152321e964A4F8527A6A3",
+      "txHash": "0xfe8493c60fbdcadc5eb12affae963e51ff64e12baf06f0fa5bcd6f14515c1357",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x07701BFFF3Fce1B1e26805f3F32Dbfb91882bAAb",
+      "txHash": "0x1f0780cdfdc8de3726ff4a00f064e364ebb12f523525d5f07ff61cdcde9a8804",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "f52d83df4ae4ca286bb67898151c5b8cb7c6a279164af21eee068857374f8363": {
+      "address": "0x338d0A7A38d459Bc48D01ab4Ad66A202fA7EB1d3",
+      "txHash": "0x9cb55c877b64f65444a8e67a199f5d14c957605065168b7356d0c80db43b7112",
+      "layout": {
+        "storage": [
+          {
+            "label": "contents",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_array(t_struct(Content)377_storage)dyn_storage",
+            "contract": "Contents",
+            "src": "contracts/Contents.sol:10"
+          },
+          {
+            "label": "totalContentNumber",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256",
+            "contract": "Contents",
+            "src": "contracts/Contents.sol:11"
+          },
+          {
+            "label": "contentOwner",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_mapping(t_address,t_array(t_uint256)dyn_storage)",
+            "contract": "Contents",
+            "src": "contracts/Contents.sol:13"
+          },
+          {
+            "label": "contentWriter",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_mapping(t_uint256,t_address)",
+            "contract": "Contents",
+            "src": "contracts/Contents.sol:14"
+          },
+          {
+            "label": "userSTagContent",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_mapping(t_address,t_mapping(t_string_memory_ptr,t_array(t_uint256)dyn_storage))",
+            "contract": "Contents",
+            "src": "contracts/Contents.sol:16"
+          },
+          {
+            "label": "userSTag",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_mapping(t_address,t_array(t_string_storage)dyn_storage)",
+            "contract": "Contents",
+            "src": "contracts/Contents.sol:19"
+          },
+          {
+            "label": "userInformation",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_mapping(t_address,t_struct(User)384_storage)",
+            "contract": "Contents",
+            "src": "contracts/Contents.sol:21"
+          },
+          {
+            "label": "nickNames",
+            "offset": 0,
+            "slot": "7",
+            "type": "t_array(t_string_storage)dyn_storage",
+            "contract": "Contents",
+            "src": "contracts/Contents.sol:28"
+          },
+          {
+            "label": "tagExists",
+            "offset": 0,
+            "slot": "8",
+            "type": "t_mapping(t_string_memory_ptr,t_bool)",
+            "contract": "Contents",
+            "src": "contracts/Contents.sol:30"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_string_storage)dyn_storage": {
+            "label": "string[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(Content)377_storage)dyn_storage": {
+            "label": "struct Contents.Content[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_address,t_array(t_string_storage)dyn_storage)": {
+            "label": "mapping(address => string[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_array(t_uint256)dyn_storage)": {
+            "label": "mapping(address => uint256[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_string_memory_ptr,t_array(t_uint256)dyn_storage))": {
+            "label": "mapping(address => mapping(string => uint256[]))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(User)384_storage)": {
+            "label": "mapping(address => struct Contents.User)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_string_memory_ptr,t_array(t_uint256)dyn_storage)": {
+            "label": "mapping(string => uint256[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_string_memory_ptr,t_bool)": {
+            "label": "mapping(string => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_address)": {
+            "label": "mapping(uint256 => address)",
+            "numberOfBytes": "32"
+          },
+          "t_string_memory_ptr": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Content)377_storage": {
+            "label": "struct Contents.Content",
+            "members": [
+              {
+                "label": "idx",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "title",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "thumbnail",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "content",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "writer",
+                "type": "t_struct(User)384_storage",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "tags",
+                "type": "t_array(t_string_storage)dyn_storage",
+                "offset": 0,
+                "slot": "7"
+              },
+              {
+                "label": "date",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "8"
+              }
+            ],
+            "numberOfBytes": "288"
+          },
+          "t_struct(User)384_storage": {
+            "label": "struct Contents.User",
+            "members": [
+              {
+                "label": "adr",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "nickName",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "profileImgURL",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          }
+        }
+      }
+    },
+    "41b59dac685535c13196e12b0ad658554aefdccedbf9a775faa8bd39b56aec3e": {
+      "address": "0xE5d2B5926d98D372B71a6c6627C607C489b225fF",
+      "txHash": "0xd8f24e6365c2f2e27e72bb48d56d10aec724c94c6e835861a50e25e43f4ecd33",
+      "layout": {
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "contents",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_array(t_struct(Content)950_storage)dyn_storage",
+            "contract": "Contents",
+            "src": "contracts/Contents.sol:11"
+          },
+          {
+            "label": "totalContentNumber",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_uint256",
+            "contract": "Contents",
+            "src": "contracts/Contents.sol:12"
+          },
+          {
+            "label": "contentOwner",
+            "offset": 0,
+            "slot": "103",
+            "type": "t_mapping(t_address,t_array(t_uint256)dyn_storage)",
+            "contract": "Contents",
+            "src": "contracts/Contents.sol:14"
+          },
+          {
+            "label": "contentWriter",
+            "offset": 0,
+            "slot": "104",
+            "type": "t_mapping(t_uint256,t_address)",
+            "contract": "Contents",
+            "src": "contracts/Contents.sol:15"
+          },
+          {
+            "label": "userSTagContent",
+            "offset": 0,
+            "slot": "105",
+            "type": "t_mapping(t_address,t_mapping(t_string_memory_ptr,t_array(t_uint256)dyn_storage))",
+            "contract": "Contents",
+            "src": "contracts/Contents.sol:17"
+          },
+          {
+            "label": "userSTag",
+            "offset": 0,
+            "slot": "106",
+            "type": "t_mapping(t_address,t_array(t_string_storage)dyn_storage)",
+            "contract": "Contents",
+            "src": "contracts/Contents.sol:20"
+          },
+          {
+            "label": "userInformation",
+            "offset": 0,
+            "slot": "107",
+            "type": "t_mapping(t_address,t_struct(User)957_storage)",
+            "contract": "Contents",
+            "src": "contracts/Contents.sol:22"
+          },
+          {
+            "label": "nickNames",
+            "offset": 0,
+            "slot": "108",
+            "type": "t_array(t_string_storage)dyn_storage",
+            "contract": "Contents",
+            "src": "contracts/Contents.sol:29"
+          },
+          {
+            "label": "tagExists",
+            "offset": 0,
+            "slot": "109",
+            "type": "t_mapping(t_string_memory_ptr,t_bool)",
+            "contract": "Contents",
+            "src": "contracts/Contents.sol:31"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_string_storage)dyn_storage": {
+            "label": "string[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_struct(Content)950_storage)dyn_storage": {
+            "label": "struct Contents.Content[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]",
+            "numberOfBytes": "32"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_mapping(t_address,t_array(t_string_storage)dyn_storage)": {
+            "label": "mapping(address => string[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_array(t_uint256)dyn_storage)": {
+            "label": "mapping(address => uint256[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_mapping(t_string_memory_ptr,t_array(t_uint256)dyn_storage))": {
+            "label": "mapping(address => mapping(string => uint256[]))",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_address,t_struct(User)957_storage)": {
+            "label": "mapping(address => struct Contents.User)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_string_memory_ptr,t_array(t_uint256)dyn_storage)": {
+            "label": "mapping(string => uint256[])",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_string_memory_ptr,t_bool)": {
+            "label": "mapping(string => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_mapping(t_uint256,t_address)": {
+            "label": "mapping(uint256 => address)",
+            "numberOfBytes": "32"
+          },
+          "t_string_memory_ptr": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_string_storage": {
+            "label": "string",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Content)950_storage": {
+            "label": "struct Contents.Content",
+            "members": [
+              {
+                "label": "idx",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "title",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "thumbnail",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "content",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "writer",
+                "type": "t_struct(User)957_storage",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "tags",
+                "type": "t_array(t_string_storage)dyn_storage",
+                "offset": 0,
+                "slot": "7"
+              },
+              {
+                "label": "date",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "8"
+              },
+              {
+                "label": "blocked",
+                "type": "t_bool",
+                "offset": 0,
+                "slot": "9"
+              }
+            ],
+            "numberOfBytes": "320"
+          },
+          "t_struct(User)957_storage": {
+            "label": "struct Contents.User",
+            "members": [
+              {
+                "label": "adr",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "nickName",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "profileImgURL",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    }
+  }
+}
