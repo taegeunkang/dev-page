@@ -14,4 +14,3 @@
 + IPFS
 + React
 
-[dev-page](https://dev-page-for-test.surge.sh)
